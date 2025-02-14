@@ -1,31 +1,22 @@
---Таблица общих слов
-CREATE TABLE common_words (
-    id SERIAL PRIMARY KEY,
-    word TEXT NOT NULL,
-    translation TEXT NOT NULL
-);
---
-CREATE TABLE personal_words (
+-- Таблица общих слов
+CREATE TABLE IF NOT EXISTS common_words (
     id SERIAL PRIMARY KEY,
     word TEXT NOT NULL,
     translation TEXT NOT NULL,
-    user_id BIGINT NOT NULL
+    UNIQUE (word)
 );
+
+-- Таблица персональных слов
+CREATE TABLE IF NOT EXISTS personal_words (
+    id SERIAL PRIMARY KEY,
+    word TEXT NOT NULL,
+    translation TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user_states (user_id)
+);
+
 -- Таблица хранения состояний
-CREATE TABLE user_states (
+CREATE TABLE IF NOT EXISTS user_states (
     user_id BIGINT PRIMARY KEY,
     current_state TEXT
 );
-
--- Добавляем общие слова
-INSERT INTO common_words (word, translation) VALUES
-('red', 'красный'),
-('blue', 'синий'),
-('green', 'зеленый'),
-('yellow', 'желтый'),
-('black', 'черный'),
-('white', 'белый'),
-('i', 'я'),
-('you', 'ты'),
-('he', 'он'),
-('she', 'она');
